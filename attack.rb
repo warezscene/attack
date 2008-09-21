@@ -19,7 +19,7 @@
 require 'logger'
 
 class Attack
-  
+
 	# The number of concurent connections per IP.
 	CONNECTION_LIMIT = 30
 	
