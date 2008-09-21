@@ -49,8 +49,8 @@ class Attack
 		connections.each { |connection|
 			conn, ip = connection.split
 			if conn.to_i > CONNECTION_LIMIT
-				@log.info `#{FIREWALL} -d #{ip}`
-				# @log.info "Blocked #{ip} with #{conn} connections."
+				`#{FIREWALL} -d #{ip}`
+			  @log.info "Blocked #{ip} with #{conn} connections."
 			end
 		}
 	end
