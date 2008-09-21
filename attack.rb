@@ -19,21 +19,30 @@
 require 'logger'
 
 class Attack
-
+  
+  # The number of concurent connections per IP
 	CONNECTION_LIMIT = 30
-	FREQUENCY = 30 # seconds
+	
+	# The frequency (in seconds) that Attack checks the current connections.
+	FREQUENCY = 30
+	
+	# The firewall. Available options: csf or apf
 	FIREWALL = "csf" 
+	
+	# Actions are logged here.
 	LOG_FILE = "attack.log.txt"
 	
 	def initialize
 		@connections = `netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n`
 		@log = Logger.new(LOG_FILE)
+ 		
  		daemonize
-		loop 
-		do
+		
+		loop do
 			run
 			sleep(FREQUENCY)
 		end
+		
 	end
 	
 	def check(connections)
