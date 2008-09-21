@@ -1,3 +1,7 @@
 = Attack
 
 Attack is a threaded alternative of (D)DoS-Deflate written in Ruby.
+
+== Installation
+
+View INSTALL

@@ -30,7 +30,7 @@ class Attack
 	FIREWALL = "csf" 
 	
 	# Actions are logged here.
-	LOG_FILE = "attack.log.txt"
+	LOG_FILE = "attack.log"
 	
 	def initialize
 		@connections = `netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n`

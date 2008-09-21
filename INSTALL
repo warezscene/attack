@@ -1,0 +1,6 @@
+= Attack Installation
+
+wget http://www.warezscene.org/attack/attack.rb.txt 
+mv attack.rb.txt attack.rb
+chmod 0777 attack.rb
+./attack.rb
