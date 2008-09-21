@@ -1,1 +1,3 @@
-Attack
+= Attack
+
+Attack is a threaded alternative of (D)DoS-Deflate written in Ruby.
