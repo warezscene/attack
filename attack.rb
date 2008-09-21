@@ -32,7 +32,7 @@ class Attack
 	# Connection checks and bans are logged here.
 	LOG_FILE = "attack.log"
 	
-	# IP Whitelist
+	# IP Whitelist.
 	WHITELIST = %w{ 127.0.0.1 }
 	 
 	def initialize
