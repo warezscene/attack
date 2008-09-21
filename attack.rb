@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Attack 0.1 - A threaded (D)DoS-Deflate alternative written in Ruby
-# Copyright (C) 2008 James Rose
+# Copyright (C) 2008 JR
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
