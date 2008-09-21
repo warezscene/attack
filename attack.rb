@@ -20,37 +20,39 @@ require 'logger'
 
 class Attack
   
-	# The number of concurent connections per IP
+	# The number of concurent connections per IP.
 	CONNECTION_LIMIT = 30
 	
 	# The frequency (in seconds) that Attack checks the current connections.
 	FREQUENCY = 30
 	
-	# The firewall. Available options: csf or apf
+	# The firewall. Available options: csf, apf or any other firewall that takes a -d IP argument.
 	FIREWALL = "csf" 
 	
-	# Actions are logged here.
+	# Connection checks and bans are logged here.
 	LOG_FILE = "attack.log"
 	
+	# IP Whitelist
+	WHITELIST = %w{ 127.0.0.1 }
+	 
 	def initialize
 		@connections = `netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n`
 		@log = Logger.new(LOG_FILE)
- 		
- 		daemonize
+		
+		daemonize
 		
 		loop do
 			run
 			sleep(FREQUENCY)
-		end
-		
+		end			
 	end
 	
 	def check(connections)
 		connections.each { |connection|
 			conn, ip = connection.split
-			if conn.to_i > CONNECTION_LIMIT
+			if conn.to_i > CONNECTION_LIMIT and not WHITELIST.include? ip
 				`#{FIREWALL} -d #{ip}`
-			  @log.info "Blocked #{ip} with #{conn} connections."
+				@log.info "Blocked #{ip} with #{conn} connections."
 			end
 		}
 	end
