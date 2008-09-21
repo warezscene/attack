@@ -1,6 +1,6 @@
-#!/usr/bin/env ruby -wKU
+#!/usr/bin/env ruby
 
-# Attack - A threaded (D)DoS-Deflate alternative written in Ruby
+# Attack 0.1 - A threaded (D)DoS-Deflate alternative written in Ruby
 # Copyright (C) 2008 James Rose
 #
 # This program is free software: you can redistribute it and/or modify
@@ -49,8 +49,8 @@ class Attack
 		connections.each { |connection|
 			conn, ip = connection.split
 			if conn.to_i > CONNECTION_LIMIT
-				`#{FIREWALL} -d #{ip}`
-				@log.info "Blocked #{ip} with #{conn} connections."
+				@log.info `#{FIREWALL} -d #{ip}`
+				# @log.info "Blocked #{ip} with #{conn} connections."
 			end
 		}
 	end
