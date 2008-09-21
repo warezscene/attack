@@ -20,7 +20,7 @@ require 'logger'
 
 class Attack
   
-  # The number of concurent connections per IP
+	# The number of concurent connections per IP
 	CONNECTION_LIMIT = 30
 	
 	# The frequency (in seconds) that Attack checks the current connections.
