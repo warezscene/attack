@@ -26,7 +26,7 @@ Copyright (C) 2008 JR
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 "
-	cecho "CTRL + C to cancel installation.\n"
+	echo "CTRL + C to cancel installation.\n"
 	return
 }
 
