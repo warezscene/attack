@@ -17,39 +17,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-black='\E[30;47m'
-red='\E[31;47m'
-blue='\E[34;47m'
-
-
-cecho () { 
-	message=${1:-$default_msg}   
-	color=${2:-$black}           
-  echo "$color"
-  echo "$message"
-	tput sgr0
-  return
-}  
-
 intro () {
-	cecho "Welcome to the WarezScene Attack Installation." $red
-	cecho "
+	echo "Welcome to the WarezScene Attack Installation."
+	echo "
 Attack 0.2 - A threaded (D)DoS-Deflate alternative written in Ruby
 Copyright (C) 2008 JR
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
  
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-" $blue
+"
 	cecho "CTRL + C to cancel installation.\n"
 	return
 }
@@ -66,7 +42,7 @@ set_firewall() {
 		echo "Firewall set: $firewall"
 		echo "firewall = \"$firewall\" " > attack.conf
 	else
-		cecho "FIREWALL NOT SET. Continuing with installation anyway..." $red
+		echo "FIREWALL NOT SET. Continuing with installation anyway..."
 		touch attack.conf
 	fi
 }
@@ -109,7 +85,7 @@ move_and_create_files() {
 	cp ./CHANGELOG $install_path
 	cp ./INSTALL $install_path
 	
-	cecho "Attack has been installed in $install_path. Start Attack now? [Y/N]" $red
+	echo "Attack has been installed in $install_path. Start Attack now? [Y/N]"
 	
 	read start
 	if [[ $start = "Y" ]]; then
