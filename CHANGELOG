@@ -1,0 +1,8 @@
+== Version 0.2
+* Per-IP whitelist
+* Improved Documentation
+* Install.sh
+* Independent configuration file
+
+== Version 0.1
+* Basic Functionality

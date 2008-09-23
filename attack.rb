@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# Attack 0.1 - A threaded (D)DoS-Deflate alternative written in Ruby
+# Attack 0.2 - A threaded (D)DoS-Deflate alternative written in Ruby
 # Copyright (C) 2008 JR
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,39 +19,49 @@
 require 'logger'
 
 class Attack
-
-	# The number of concurent connections per IP.
-	CONNECTION_LIMIT = 30
-	
-	# The frequency (in seconds) that Attack checks the current connections.
-	FREQUENCY = 30
-	
-	# The firewall. Available options: csf, apf or any other firewall that takes a -d IP argument.
-	FIREWALL = "csf" 
 	
 	# Connection checks and bans are logged here.
 	LOG_FILE = "attack.log"
+	
+	# You can overwrite any of the instance variables in the configuration file.
+	CONFIG_FILE = "attack.conf"
 	
 	# IP Whitelist.
 	WHITELIST = %w{ 127.0.0.1 }
 	 
 	def initialize
-		@connections = `netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n`
+		# The number of concurent connections per IP.
+		@connection_limit = 30
+		
+		# The frequency (in seconds) that Attack checks the current connections.
+		@frequency = 30
+		
+		# The firewall. Available options: csf, apf or any other firewall that takes a -d IP argument.
+		@firewall = "csf"
+
+		load_from_config?
+		
 		@log = Logger.new(LOG_FILE)
 		
-		daemonize
-		
+#		daemonize	
+	
 		loop do
 			run
-			sleep(FREQUENCY)
-		end			
+			sleep(@frequency)
+		end
+		
+	end
+	
+	def stop
+		Thread.main.kill
+		puts "Bye bye"
 	end
 	
 	def check(connections)
 		connections.each { |connection|
 			conn, ip = connection.split
-			if conn.to_i > CONNECTION_LIMIT and not WHITELIST.include? ip
-				`#{FIREWALL} -d #{ip}`
+			if conn.to_i > @connection_limit and not WHITELIST.include? ip
+				`#{@firewall} -d #{ip}`
 				@log.info "Blocked #{ip} with #{conn} connections."
 			end
 		}
@@ -59,7 +69,7 @@ class Attack
 	
 	def run
 		Thread.new {
-			check @connections
+			check `netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n`
 			@log.info "Checked connections at #{Time.now}"
 		}.join
 	end
@@ -76,6 +86,21 @@ class Attack
 	  STDOUT.reopen "/dev/null", "a" 
 	  STDERR.reopen STDOUT
 	  trap("TERM") { exit }
+	end
+	
+	def load_from_config?
+		config  = File.open(CONFIG_FILE)
+		if config && File.size(CONFIG_FILE) != 0
+			config.each { |line|
+				option, value = line.split "=" 
+ 					eval %{
+						@#{option.strip} = #{value.strip}
+					}
+			}
+		else
+			puts "Using default configuration. I can't read the configuration file. Does it exist?"
+		end
+		
 	end
 	
 end
