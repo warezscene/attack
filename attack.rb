@@ -43,7 +43,7 @@ class Attack
 		
 		@log = Logger.new(LOG_FILE)
 		
-#		daemonize	
+		daemonize	
 	
 		loop do
 			run
