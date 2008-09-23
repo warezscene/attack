@@ -61,7 +61,7 @@ which_firewall() {
 }
 
 set_firewall() {
-	if [[ $1 =~ apf|csf ]]; then
+	if [[ ! $1 = "" ]]; then
 		firewall=$1
 		echo "Firewall set: $firewall"
 		echo "firewall = \"$firewall\" " > attack.conf
@@ -112,7 +112,7 @@ move_and_create_files() {
 	cecho "Attack has been installed in $install_path. Start Attack now? [Y/N]" $red
 	
 	read start
-	if [[ $start =~ y|Y ]]; then
+	if [[ $start = "Y" ]]; then
 		ruby "$install_path"attack.rb
 	else
 		echo "Installation Complete!"
